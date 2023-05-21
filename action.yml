@@ -1,0 +1,19 @@
+name: 'Android accept licenses'
+description: 'Accept Android licenses with sdkmanager'
+author: 'Simon Marquis'
+branding:
+  icon: 'check-circle'
+  color: 'blue'
+
+runs:
+  using: composite
+  steps:
+
+    - if: runner.os == 'Linux' || runner.os == 'macOS'
+      shell: bash
+      run: yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
+
+    - if: runner.os == 'Windows'
+      shell: pwsh
+      run: |
+        , 'y' * 100 | & $env:ANDROID_HOME\cmdline-tools\latest\bin\sdkmanager.bat --licenses
